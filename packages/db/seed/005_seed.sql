@@ -93,14 +93,14 @@ INSERT INTO leads (client_id, branch_id, assigned_to, name, phone, source, campa
   ('11111111-1111-1111-1111-111111111111', 'aaaa0001-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000030', 'Aakash Jain',     '8800000001', 'facebook', 'Summer Offer', 400, 2500, 'new',       'Interested in 2BHK'),
   ('11111111-1111-1111-1111-111111111111', 'aaaa0001-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000030', 'Bina Sharma',     '8800000002', 'google',   'SEO Campaign', 350, 0,    'follow_up', 'Called twice, no pickup'),
   ('11111111-1111-1111-1111-111111111111', 'aaaa0001-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000031', 'Chetan Yadav',    '8800000003', 'organic',  NULL,           0,   0,    'recce',     'Site visit scheduled'),
-  ('11111111-1111-1111-1111-111111111111', 'aaaa0001-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000031', 'Divya Patel',     '8800000004', 'facebook', 'Summer Offer', 400, 0,    'hot_lead',  'Very interested, budget confirmed'),
+  ('11111111-1111-1111-1111-111111111111', 'aaaa0001-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000031', 'Divya Patel',     '8800000004', 'facebook', 'Summer Offer', 400, 0,    'hot_follow_up',  'Very interested, budget confirmed'),
   ('11111111-1111-1111-1111-111111111111', 'aaaa0001-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000030', 'Esha Kapoor',     '8800000005', 'google',   'SEO Campaign', 350, 5000, 'closure',  'Booked 3BHK flat'),
   ('11111111-1111-1111-1111-111111111111', 'aaaa0001-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000031', 'Farhan Khan',     '8800000006', 'facebook', 'Facebook Ads', 500, 0,    'dead',      'Not interested anymore'),
   ('11111111-1111-1111-1111-111111111111', 'aaaa0001-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000030', 'Geeta Mishra',    '8800000007', 'organic',  NULL,           0,   0,    'new',       NULL),
 
   -- Alpha Gurgaon branch (employee: Sonia=032)
   ('11111111-1111-1111-1111-111111111111', 'aaaa0002-0000-0000-0000-000000000002', '00000000-0000-0000-0000-000000000032', 'Harsh Tiwari',   '8800000008', 'facebook', 'Facebook Ads', 500, 0,    'follow_up', 'Wants Friday callback'),
-  ('11111111-1111-1111-1111-111111111111', 'aaaa0002-0000-0000-0000-000000000002', '00000000-0000-0000-0000-000000000032', 'Isha Bansal',    '8800000009', 'google',   'SEO Campaign', 350, 3000, 'hot_lead', 'Budget 40L confirmed'),
+  ('11111111-1111-1111-1111-111111111111', 'aaaa0002-0000-0000-0000-000000000002', '00000000-0000-0000-0000-000000000032', 'Isha Bansal',    '8800000009', 'google',   'SEO Campaign', 350, 3000, 'hot_follow_up', 'Budget 40L confirmed'),
   ('11111111-1111-1111-1111-111111111111', 'aaaa0002-0000-0000-0000-000000000002', '00000000-0000-0000-0000-000000000032', 'Jaideep Nair',   '8800000010', 'organic',  NULL,           0,   0,    'dead',      'Moved to another city'),
 
   -- Beta Noida branch (employee: Sunita=050)
@@ -132,7 +132,7 @@ SELECT
   'Test Lead ' || i,
   '7' || LPAD((floor(random() * 999999999)::BIGINT)::TEXT, 9, '0'),
   (ARRAY['facebook', 'google', 'organic', 'referral'])[floor(random() * 4 + 1)],
-  (ARRAY['new', 'follow_up', 'recce', 'hot_lead', 'closure', 'dead']::lead_status[])[floor(random() * 6 + 1)],
+  (ARRAY['new', 'follow_up', 'hot_follow_up', 'recce', 'closure', 'dead']::lead_status[])[floor(random() * 6 + 1)],
   floor(random() * 1000)
 FROM generate_series(1, 10000) i;
 */

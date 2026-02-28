@@ -28,8 +28,8 @@ CREATE TYPE client_status AS ENUM (
 CREATE TYPE lead_status AS ENUM (
   'new',
   'follow_up',
+  'hot_follow_up',
   'recce',
-  'hot_lead',
   'closure',
   'dead'
 );

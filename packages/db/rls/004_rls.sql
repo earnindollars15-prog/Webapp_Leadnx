@@ -188,12 +188,11 @@ CREATE POLICY "leads_brand_admin_update"
     AND client_id = get_my_client_id()
   );
 
-CREATE POLICY "leads_brand_admin_delete"
-  ON leads FOR DELETE
-  USING (
-    get_my_role() = 'brand_admin'
-    AND client_id = get_my_client_id()
-  );
+-- ⚠️ DELETE POLICY INTENTIONALLY REMOVED
+-- Reason: LeadNX uses soft delete ONLY (is_deleted = true)
+-- Physical DELETE is never permitted at any role level
+-- Soft delete is performed via UPDATE policy above
+
 
 -- branch_admin: CRUD on their branch only
 CREATE POLICY "leads_branch_admin_select"
@@ -252,8 +251,11 @@ CREATE POLICY "leads_employee_update"
   WITH CHECK (
     get_my_role() = 'employee'
     AND client_id = get_my_client_id()
-    -- Employee cannot reassign to another employee or change branch
     AND branch_id = get_my_branch_id()
+    -- ✅ Security: employee cannot reassign lead to another user
+    AND assigned_to = (
+      SELECT id FROM users WHERE auth_user_id = auth.uid() LIMIT 1
+    )
   );
 
 -- ============================================================

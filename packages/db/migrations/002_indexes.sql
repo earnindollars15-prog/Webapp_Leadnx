@@ -48,3 +48,10 @@ CREATE INDEX idx_campaign_map_client          ON campaign_branch_map(client_id, 
 
 -- webhook_logs: unprocessed jobs
 CREATE INDEX idx_webhook_logs_processed       ON webhook_logs(processed);
+
+-- leads: DASHBOARD OPTIMIZATION — composite partial index
+-- Covers: branch performance queries, status breakdowns, analytics aggregations
+-- WHERE is_deleted = FALSE means the index only covers active leads (smaller, faster)
+CREATE INDEX idx_leads_client_branch_status
+  ON leads(client_id, branch_id, status)
+  WHERE is_deleted = FALSE;

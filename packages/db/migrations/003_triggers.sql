@@ -6,20 +6,18 @@
 
 -- ============================================================
 -- TRIGGER 1: Auto-generate lead_code (LNDX-00001 format)
--- Fires BEFORE INSERT on leads
+-- Uses PostgreSQL SEQUENCE — safe for concurrent inserts
+-- (MAX+1 approach is NOT safe under concurrency — race condition risk)
 -- ============================================================
+
+-- Create a dedicated sequence for lead codes
+CREATE SEQUENCE IF NOT EXISTS lead_code_seq START 1 INCREMENT 1;
 
 CREATE OR REPLACE FUNCTION generate_lead_code()
 RETURNS TRIGGER AS $$
-DECLARE
-  seq_val BIGINT;
 BEGIN
-  -- Get a sequence number based on total leads count
-  SELECT COALESCE(MAX(CAST(SUBSTRING(lead_code FROM 6) AS BIGINT)), 0) + 1
-    INTO seq_val
-    FROM leads;
-
-  NEW.lead_code := 'LNDX-' || LPAD(seq_val::TEXT, 5, '0');
+  -- nextval is atomic — no race condition possible, even at high concurrency
+  NEW.lead_code := 'LNDX-' || LPAD(nextval('lead_code_seq')::TEXT, 5, '0');
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
